@@ -1,12 +1,16 @@
-import './App.css'
+import { Link } from "react-router-dom"
 
-function App() {
-
+export default function App() {
   return (
     <>
-      <p>Hi</p>
+      <input placeholder = "username"></input>
+      <input placeholder = "password"></input>
+      <Link to="/home">
+        <button>Log in</button>
+      </Link>
     </>
   )
 }
 
-export default App
+  
+

@@ -1,7 +1,11 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+
+interface Comment{
+    comment: string;
+}
 
 interface PostState {
-    comments: string[];
+    comments: Comment[]
 }
 
 const initialState: PostState = {
@@ -12,8 +16,8 @@ const postSlice = createSlice({
     name: 'post',
     initialState,
     reducers: {
-        setComments(state, action: PayloadAction<string>)  {
-            state.comments.push(action.payload);
+        setComments(state, action)  {
+            state.comments = action.payload
         },
     }
 })

@@ -1,15 +1,20 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface Comment{
     comment: string;
+    username: string;
 }
 
 interface PostState {
     comments: Comment[]
+    authToken: string | null
+    authUser: string | null
 }
 
 const initialState: PostState = {
-    comments: []
+    comments: [],
+    authToken: null,
+    authUser: null
 }
 
 const postSlice = createSlice({
@@ -19,8 +24,14 @@ const postSlice = createSlice({
         setComments(state, action)  {
             state.comments = action.payload
         },
+        setAuthToken(state, action: PayloadAction<string | null>) {
+            state.authToken = action.payload
+        },
+        setAuthUser(state, action: PayloadAction<string | null>) {
+            state.authUser = action.payload
+        }
     }
 })
 
-export const { setComments } = postSlice.actions;
+export const { setComments, setAuthToken, setAuthUser } = postSlice.actions;
 export default postSlice.reducer;

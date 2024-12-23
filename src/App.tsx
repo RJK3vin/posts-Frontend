@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { logIn } from "./api"
+import { logIn, createAccount } from "./api"
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setAuthToken, setAuthUser } from "./postSlice";
@@ -20,11 +20,22 @@ export default function App() {
       console.error(error)
     }
   }
+
+  const handleSignUp = async() => {
+    try {
+      await createAccount(username, password)
+      await handleLogIn()
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <>
       <input placeholder = "username" value = {username} onChange={(event) => setUsername(event.target.value)}></input>
       <input placeholder = "password" value = {password} onChange={(event) => setPassword(event.target.value)}></input>
       <button onClick={handleLogIn}>Log in</button>
+      <button onClick={handleSignUp}>Sign up</button>
     </>
   )
 }

@@ -28,9 +28,9 @@ export default function Explore() {
         <h1>Explore page</h1>
         <div>
             {comments.length > 0 ? (
-                comments.map((comment, index) => (
+                comments.map((comment) => (
                     <>
-                        <p key={index}>{comment.comment} Posted by {comment.username}</p>
+                        <p key={comment.id}>{comment.comment} Posted by {comment.username}</p>
                     </>
                 
                 ))
@@ -43,5 +43,4 @@ export default function Explore() {
         </Link>
         </>
     )
-    
 }

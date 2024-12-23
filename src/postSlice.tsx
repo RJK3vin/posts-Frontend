@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface Comment{
+    id : number;
     comment: string;
     username: string;
 }

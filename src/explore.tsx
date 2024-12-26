@@ -23,6 +23,7 @@ export default function Explore() {
         }
         fetchComments()
     }, [dispatch, token])
+    
     return (
         <>
         <h1>Explore page</h1>
@@ -30,9 +31,21 @@ export default function Explore() {
             {comments.length > 0 ? (
                 comments.map((comment) => (
                     <>
-                        <p key={comment.id}>{comment.comment} Posted by {comment.username}</p>
+                        <p key={comment.id}>{comment.comment} - posted by: {comment.username}</p>
+                        {comment.tags.length > 0 && (
+                                <p>Tags:  
+                                    {comment.tags.map((tag, index) => {
+                                        if (index < comment.tags.length - 1) {
+                                            return (
+                                                <span> @{tag}, </span>
+                                            )
+                                        } else {
+                                            return <span> @{tag}</span>
+                                        }
+                                    })}
+                                </p>
+                        )}
                     </>
-                
                 ))
             ) : (
                 <p>Loading comments...</p>

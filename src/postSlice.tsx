@@ -4,6 +4,7 @@ interface Comment{
     id : number;
     comment: string;
     username: string;
+    tags: string[]
 }
 
 interface PostState {

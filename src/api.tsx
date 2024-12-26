@@ -17,9 +17,9 @@ export const fetchPosts = async (token: string) => {
     }
 }
 
-export const createPost = async (comment: string, token: string) => {
+export const createPost = async (comment: string, tags: string[], token: string) => {
     try {
-        const response = await axios.post(BASE_URL1, { comment }, {
+        const response = await axios.post(BASE_URL1, { comment, tags }, {
             headers: {
                 Authorization: `Token ${token}`
             }
@@ -42,6 +42,7 @@ export const logIn = async (username : string, password : string) => {
             username,
         }
     } catch (error) {
+        alert("Try again")
         console.error(error)
         throw error
     }
@@ -56,9 +57,11 @@ export const createAccount = async(username : string, password : string) => {
         if (response.status === 201) {
             console.log("Account successfully created.");
         } else {
+            alert("Failed to create account")
             throw new Error("Failed to create account.");
         }
     } catch (error) {
+        alert("Failed to create account")
         console.error(error)
         throw error
     }

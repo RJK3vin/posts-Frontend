@@ -26,6 +26,7 @@ export const createPost = async (comment: string, tags: string[], token: string)
         })
         return response.data
     } catch (error) {
+        alert("Couldn't create post")
         console.error(error)
         throw error
     }

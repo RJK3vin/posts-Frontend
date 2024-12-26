@@ -4,13 +4,34 @@ import { useSelector } from "react-redux"
 
 export default function Tags() {
     const comments = useSelector((state : RootState) => state.post.comments)
+    const user = useSelector((state : RootState) => state.post.authUser)
 
     return (
         <>
             <h1>Posts your tagged in</h1>
             <div>
-                <p></p>
-            </div>
+                {comments.length > 0 ? (
+                    comments.map((comment) => (
+                    user && comment.tags.includes(user) && (
+                    <div>
+                        <p key={comment.id}>{comment.comment} - posted by: {comment.username}</p>
+                        {comment.tags.length > 0 && (
+                        <p>Tags: 
+                            {comment.tags.map((tag, index) => (
+                            <span key={index}>
+                                @{tag}
+                                {index < comment.tags.length - 1 ? ", " : ""}
+                            </span>
+                            ))}
+                        </p>
+                        )}
+                    </div>
+            )
+          ))
+        ) : (
+          <p>Loading posts you're tagged in...</p>
+        )}
+      </div>
             <Link to ='/home'>
                 <button>Back to home page</button>
             </Link>

@@ -1,9 +1,28 @@
 import { Link } from "react-router-dom"
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from './store';
+import { useEffect } from "react";
+import { fetchPosts } from "./api";
+import { setComments } from "./postSlice";
 
 export default function Explore() {
     const comments = useSelector((state : RootState) => state.post.comments)
+    const token = useSelector((state: RootState) => state.post.authToken);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const fetchComments = async () => {
+            try {
+                if (token) {
+                    const data = await fetchPosts(token)
+                    dispatch(setComments(data))
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        fetchComments();
+    }, [dispatch, token]);
 
     return (
         <>

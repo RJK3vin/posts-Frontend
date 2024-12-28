@@ -1,10 +1,30 @@
 import { Link } from "react-router-dom"
 import { RootState } from "./store"
 import { useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
+import { useEffect } from "react"
+import { fetchPosts } from "./api"
+import { setComments } from "./postSlice"
 
 export default function Tags() {
     const comments = useSelector((state : RootState) => state.post.comments)
     const user = useSelector((state : RootState) => state.post.authUser)
+    const token = useSelector((state: RootState) => state.post.authToken);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const fetchComments = async () => {
+            try {
+                if (token) {
+                    const data = await fetchPosts(token)
+                    dispatch(setComments(data))
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        fetchComments();
+    }, [dispatch, token]);
 
     return (
         <>

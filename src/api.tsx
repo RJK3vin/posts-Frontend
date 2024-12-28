@@ -59,7 +59,6 @@ export const createAccount = async(username : string, password : string) => {
             console.log("Account successfully created.");
         } else {
             alert("Failed to create account")
-            throw new Error("Failed to create account.");
         }
     } catch (error) {
         alert("Failed to create account")

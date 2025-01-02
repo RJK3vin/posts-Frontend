@@ -7,16 +7,23 @@ interface Comment{
     tags: string[]
 }
 
+interface Users{
+    id : number;
+    username : string;
+}
+
 interface PostState {
     comments: Comment[]
     authToken: string | null
     authUser: string | null
+    userList: Users[]
 }
 
 const initialState: PostState = {
     comments: [],
     authToken: null,
-    authUser: null
+    authUser: null,
+    userList: [],
 }
 
 const postSlice = createSlice({
@@ -31,9 +38,12 @@ const postSlice = createSlice({
         },
         setAuthUser(state, action: PayloadAction<string | null>) {
             state.authUser = action.payload
-        }
+        },
+        setUserList(state, action: PayloadAction<Users[]>) {
+            state.userList = action.payload
+        },
     }
 })
 
-export const { setComments, setAuthToken, setAuthUser } = postSlice.actions;
+export const { setComments, setAuthToken, setAuthUser, setUserList} = postSlice.actions;
 export default postSlice.reducer;

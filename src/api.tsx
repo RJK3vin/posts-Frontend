@@ -66,3 +66,17 @@ export const createAccount = async(username : string, password : string) => {
         throw error
     }
 }
+
+export const fetchUsers = async (token : string) => {
+    try {
+        const response = await axios.get("http://127.0.0.1:8000/users/", {
+            headers: {
+                Authorization: `Token ${token}`,
+            }
+        })
+        return response.data
+    } catch (error) {
+        console.error(error)
+        throw error
+    }
+}

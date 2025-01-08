@@ -4,43 +4,43 @@ import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
 import { useEffect } from "react"
 import { fetchPosts } from "./api"
-import { setComments } from "./postSlice"
+import { setPosts } from "./postSlice"
 
 export default function Tags() {
-    const comments = useSelector((state : RootState) => state.post.comments)
+    const posts = useSelector((state : RootState) => state.post.posts)
     const user = useSelector((state : RootState) => state.post.authUser)
     const token = useSelector((state: RootState) => state.post.authToken);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const fetchComments = async () => {
+        const fetchPictures = async () => {
             try {
                 if (token) {
                     const data = await fetchPosts(token)
-                    dispatch(setComments(data))
+                    dispatch(setPosts(data))
                 }
             } catch (error) {
                 console.log(error)
             }
         }
-        fetchComments();
+        fetchPictures();
     }, [dispatch, token]);
 
     return (
         <>
             <h1>Posts your tagged in</h1>
             <div>
-                {comments.length > 0 ? (
-                    comments.map((comment) => (
-                    user && comment.tags.includes(user) && (
+                {posts.length > 0 ? (
+                    posts.map((post) => (
+                    user && post.tags.includes(user) && (
                     <div>
-                        <p key={comment.id}>{comment.comment} - posted by: {comment.username}</p>
-                        {comment.tags.length > 0 && (
+                        <p key={post.id}>{post.post} - posted by: {post.username}</p>
+                        {post.tags.length > 0 && (
                         <p>Tags: 
-                            {comment.tags.map((tag, index) => (
+                            {post.tags.map((tag, index) => (
                             <span key={index}>
                                 @{tag}
-                                {index < comment.tags.length - 1 ? ", " : ""}
+                                {index < post.tags.length - 1 ? ", " : ""}
                             </span>
                             ))}
                         </p>

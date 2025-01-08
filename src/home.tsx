@@ -11,6 +11,7 @@ import { fetchUsers } from "./api";
 export default function Home() {
     const [textboxvalue, setTextBoxValue] = useState("")
     const [tagboxvalue, setTagBoxValue] = useState("")
+    const [renderTags, setRenderTags] = useState(false)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [error, setError] = useState<string | null>(null);
@@ -33,11 +34,11 @@ export default function Home() {
         getUsers();
     }, [dispatch, token]);
 
-    const handleSubmit = async (comment: string, tag: string) => {
+    const handleSubmit = async (post: string, tag: string) => {
         setError(null)
         setSuccessMessage(null)
 
-        if (!comment.trim()) {
+        if (!post.trim()) {
             setError("You have to type something")
             return;
         }
@@ -46,7 +47,7 @@ export default function Home() {
         console.log(updatedTags)
         try {
             if (token) {
-                await createPost(comment, updatedTags, token)
+                await createPost(post, updatedTags, token)
                 setSuccessMessage("Post sucessfully created")
                 setTextBoxValue("")
                 setTagBoxValue("")
@@ -64,13 +65,18 @@ export default function Home() {
         window.location.reload();
     }
 
-    const handleTag = async () => {
-        try {
-            if (token) {
-                await fetchUsers(token)
-            }
-        } catch (error) {
-            console.log(error)
+    const handleOnClick = (name: string) => {
+        setTagBoxValue((prevValue) => prevValue + name + ',')
+    }
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = event.target.value
+        setTagBoxValue(newValue)
+
+        if (newValue[newValue.length - 1] === '@') {
+            setRenderTags(true)
+        } else {
+            setRenderTags(false)
         }
     }
 
@@ -87,18 +93,17 @@ export default function Home() {
                 <button>Go to posts your tagged in</button>
             </Link>
             <br></br>
-            <p>Create comments</p>
-            <input placeholder = "Type comment" value={textboxvalue} onChange={(event) => setTextBoxValue(event.target.value)}></input>
-            <input placeholder = "Tag users" value = {tagboxvalue} onChange={(event) => setTagBoxValue(event.target.value)}></input>
+            <p>Create posts</p>
+            <input placeholder = "Type post" value={textboxvalue} onChange={(event) => setTextBoxValue(event.target.value)}></input>
+            <input placeholder = "Tag users" value = {tagboxvalue} onChange={(event) => handleChange(event)}></input>
             <button onClick={() => handleSubmit(textboxvalue, tagboxvalue)}>Post</button>
-            <button onClick={handleTag}>Tag</button>
             <br></br>
             <br></br>
             <div>
-                {tagboxvalue === '@' && users.length > 0 &&(
+                {renderTags && users.length > 0 &&(
                     users.map((person) => (
                         <>
-                            <button key={person.id}>{person.username}</button>
+                            <button key={person.id} onClick={() => handleOnClick(`${person.username}`)}>{person.username}</button>
                         </>
                     ))
                 )}

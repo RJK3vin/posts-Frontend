@@ -3,39 +3,40 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from './store';
 import { useEffect } from "react";
 import { fetchPosts } from "./api";
-import { setComments } from "./postSlice";
+import { setPosts } from "./postSlice";
 
 export default function Explore() {
-    const comments = useSelector((state : RootState) => state.post.comments)
+    const posts = useSelector((state : RootState) => state.post.posts)
     const token = useSelector((state: RootState) => state.post.authToken);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const fetchComments = async () => {
+        const fetchPictures = async () => {
             try {
                 if (token) {
                     const data = await fetchPosts(token)
-                    dispatch(setComments(data))
+                    dispatch(setPosts(data))
                 }
             } catch (error) {
                 console.log(error)
             }
         }
-        fetchComments();
+        fetchPictures();
     }, [dispatch, token]);
+    console.log(posts)
 
     return (
         <>
         <h1>Explore page</h1>
         <div>
-            {comments.length > 0 ? (
-                comments.map((comment) => (
+            {posts.length > 0 ? (
+                posts.map((post) => (
                     <>
-                        <p key={comment.id}>{comment.comment} - posted by: {comment.username}</p>
-                        {comment.tags.length > 0 && (
+                        <p key={post.id}>{post.post} - posted by: {post.username}</p>
+                        {post.tags.length > 0 && (
                                 <p>Tags:  
-                                    {comment.tags.map((tag, index) => {
-                                        if (index < comment.tags.length - 1) {
+                                    {post.tags.map((tag, index) => {
+                                        if (index < post.tags.length - 1) {
                                             return (
                                                 <span> @{tag}, </span>
                                             )
@@ -45,10 +46,17 @@ export default function Explore() {
                                     })}
                                 </p>
                         )}
+                        {post.comments.length > 0 && (
+                            <p>Comments:
+                                {post.comments.map((comment) => {
+                                    return (<span key={comment.id}> {comment.content} - commented by: {comment.username}</span>)
+                                })}
+                            </p>
+                        )}
                     </>
                 ))
             ) : (
-                <p>Loading comments...</p>
+                <p>Loading posts...</p>
             )}
         </div>
         <Link to ="/home">

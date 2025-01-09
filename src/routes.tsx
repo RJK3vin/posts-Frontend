@@ -2,6 +2,7 @@ import App from "./App";
 import Explore from "./explore";
 import Home from "./home";
 import Tags from "./tags";
+import PostInfo from "./postInfo";
 
 const routes = [
     {
@@ -19,6 +20,10 @@ const routes = [
     {
         path: "/tag",
         element: <Tags />,
+    },
+    {
+        path: "/post",
+        element: <PostInfo />,
     },
 ];
 

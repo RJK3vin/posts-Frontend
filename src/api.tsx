@@ -80,3 +80,18 @@ export const fetchUsers = async (token : string) => {
         throw error
     }
 }
+
+export const createComment = async(id: number, token : string, comment : string) => {
+    try {
+        const response = await axios.post(`http://127.0.0.1:8000/posts/${id}/comments/create/`,{ comment }, {
+            headers: {
+                Authorization: `Token ${token}`,
+                "Content-Type": "application/json",
+            }
+        })
+        return response.data
+    } catch (error) {
+        console.error(error)
+        throw error
+    }
+}

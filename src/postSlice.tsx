@@ -15,7 +15,7 @@ interface Users{
 
 interface Comments{
     id : number;
-    content : string;
+    comment : string;
     username : string;
 }
 

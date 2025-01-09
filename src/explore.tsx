@@ -2,13 +2,33 @@ import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from './store';
 import { useEffect } from "react";
-import { fetchPosts } from "./api";
+import { fetchPosts, createComment } from "./api";
 import { setPosts } from "./postSlice";
+import { useState } from "react";
 
 export default function Explore() {
     const posts = useSelector((state : RootState) => state.post.posts)
     const token = useSelector((state: RootState) => state.post.authToken);
     const dispatch = useDispatch();
+    const [text, setText] = useState("")
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+    const postComment = async (id: number,comment: string) => {
+        try {
+            if (token) {
+                await createComment(id, token, comment)
+                const data = await fetchPosts(token)
+                dispatch(setPosts(data))
+                setSuccessMessage("Comment sucessfully created")
+                setText("")
+            }
+        } catch (error) {
+            setError("Failed to create comment, try again")
+            console.log(error)
+        }
+
+    }
 
     useEffect(() => {
         const fetchPictures = async () => {
@@ -49,10 +69,14 @@ export default function Explore() {
                         {post.comments.length > 0 && (
                             <p>Comments:
                                 {post.comments.map((comment) => {
-                                    return (<span key={comment.id}> {comment.content} - commented by: {comment.username}</span>)
+                                    return (<span key={comment.id}> {comment.comment} - commented by: {comment.username}</span>)
                                 })}
                             </p>
                         )}
+                        <input placeholder="Type comment" value={text} onChange={(event) => {setText(event.target.value)}}></input>
+                        <button onClick={() => postComment(post.id, text)}>Post Comment</button>
+                        {error && <p style={{ color: "red" }}>{error}</p>}
+                        {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
                     </>
                 ))
             ) : (
@@ -61,6 +85,9 @@ export default function Explore() {
         </div>
         <Link to ="/home">
             <button>Back to home page</button>
+        </Link>
+        <Link to ="/post">
+            
         </Link>
         </>
     )

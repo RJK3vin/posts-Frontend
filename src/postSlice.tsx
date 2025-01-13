@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface Post{
+export interface Post{
     id : number;
     post: string;
     username: string;
@@ -13,7 +13,7 @@ interface Users{
     username : string;
 }
 
-interface Comments{
+export interface Comments{
     id : number;
     comment : string;
     username : string;

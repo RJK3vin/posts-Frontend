@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { setUserList } from "./postSlice";
 import { fetchUsers } from "./api";
+import Toast from "./toast";
+import './App.css'
 
 export default function Home() {
     const [textboxvalue, setTextBoxValue] = useState("")
@@ -15,10 +17,10 @@ export default function Home() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [error, setError] = useState<string | null>(null);
-    const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const token = useSelector((state: RootState) => state.post.authToken);
     const user = useSelector((state: RootState) => state.post.authUser);
     const users = useSelector((state: RootState) => state.post.userList);
+    const [showToast, setShowToast] = useState(false);
 
     useEffect(() => {
         const getUsers = async () => {
@@ -36,7 +38,6 @@ export default function Home() {
 
     const handleSubmit = async (post: string, tag: string) => {
         setError(null)
-        setSuccessMessage(null)
 
         if (!post.trim()) {
             setError("You have to type something")
@@ -48,7 +49,8 @@ export default function Home() {
         try {
             if (token) {
                 await createPost(post, updatedTags, token)
-                setSuccessMessage("Post sucessfully created")
+                setShowToast(true);
+                setTimeout(() => setShowToast(false), 3000);
                 setTextBoxValue("")
                 setTagBoxValue("")
             } else {
@@ -109,10 +111,9 @@ export default function Home() {
                 )}
             </div>
             {error && <p style={{ color: "red" }}>{error}</p>}
-            {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
-            <br></br>
-            <br></br>
             <button onClick={handleSignOut}>Sign out</button>
+            <Toast message = "Post successfully created!" show={showToast}/>
+
         </>
     )
 }

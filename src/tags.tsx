@@ -28,33 +28,29 @@ export default function Tags() {
 
     return (
         <>
-            <h1>Posts your tagged in</h1>
-            <div>
-                {posts.length > 0 ? (
-                    posts.map((post) => (
-                    user && post.tags.includes(user) && (
-                    <div>
-                        <p key={post.id}>{post.post} - posted by: {post.username}</p>
-                        {post.tags.length > 0 && (
-                        <p>Tags: 
-                            {post.tags.map((tag, index) => (
-                            <span key={index}>
-                                @{tag}
-                                {index < post.tags.length - 1 ? ", " : ""}
-                            </span>
-                            ))}
-                        </p>
-                        )}
-                    </div>
-            )
-          ))
-        ) : (
-          <p>Loading posts you're tagged in...</p>
-        )}
-      </div>
-            <Link to ='/home'>
-                <button>Back to home page</button>
-            </Link>
+        <h1>Posts you're tagged in</h1>
+        <div>
+            {posts && posts.length > 0 ? (
+                posts.some((post) => user && post.tags.includes(user)) ? (
+                    posts.map((post) => 
+                        user && post.tags.includes(user) && (
+                            <div>
+                                <Link to="/post" state={{ post }}>
+                                    <p key={post.id}>{post.post} - posted by: {post.username}</p>
+                                </Link>
+                            </div>
+                        )
+                    )
+                ) : (
+                    <p>No posts found where you're tagged.</p>
+                )
+            ) : (
+                <p>Loading posts you're tagged in...</p>
+            )}
+        </div>
+        <Link to="/home">
+            <button>Back to home page</button>
+        </Link>
         </>
     )
 }

@@ -41,7 +41,6 @@ export default function Explore() {
                 <p>Loading posts...</p>
             )}
         </div>
-        <br></br>
         <Link to ="/home">
             <button>Back to home page</button>
         </Link>

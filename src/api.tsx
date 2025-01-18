@@ -17,9 +17,9 @@ export const fetchPosts = async (token: string) => {
     }
 }
 
-export const createPost = async (post: string, tags: string[], token: string) => {
+export const createPost = async (post: string, caption: string, tags: string[], token: string) => {
     try {
-        const response = await axios.post(BASE_URL1, { post, tags }, {
+        const response = await axios.post(BASE_URL1, { post, caption, tags }, {
             headers: {
                 Authorization: `Token ${token}`
             }

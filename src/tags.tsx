@@ -35,8 +35,9 @@ export default function Tags() {
                     posts.map((post) => 
                         user && post.tags.includes(user) && (
                             <div>
+                                <img src={post.post} style= {{ width: "100px", height: "100px" }}></img>
                                 <Link to="/post" state={{ post }}>
-                                    <p key={post.id}>{post.post} - posted by: {post.username}</p>
+                                    <p key={post.id}>{post.caption} - posted by: {post.username}</p>
                                 </Link>
                             </div>
                         )

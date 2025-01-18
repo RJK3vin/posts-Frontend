@@ -55,7 +55,8 @@ export default function PostInfo() {
     return (
         <>
         <h1>Post info</h1>
-        <p>{updatedPost.post} - posted by {updatedPost.username}</p>
+        <img src={post.post} style= {{ width: "100px", height: "100px" }}></img>
+        <p>{updatedPost.caption} - posted by {updatedPost.username}</p>
             {updatedPost.tags.length > 0 && (
                 <p>Tags:  
                     {updatedPost.tags.map((tag, index) => {

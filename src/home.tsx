@@ -11,6 +11,7 @@ import Toast from "./toast";
 import './App.css'
 
 export default function Home() {
+    const [postboxvalue, setPostBoxValue] = useState("")
     const [textboxvalue, setTextBoxValue] = useState("")
     const [tagboxvalue, setTagBoxValue] = useState("")
     const [renderTags, setRenderTags] = useState(false)
@@ -36,7 +37,7 @@ export default function Home() {
         getUsers();
     }, [dispatch, token]);
 
-    const handleSubmit = async (post: string, tag: string) => {
+    const handleSubmit = async (post: string, caption: string, tag: string) => {
         setError(null)
 
         if (!post.trim()) {
@@ -48,9 +49,10 @@ export default function Home() {
         console.log(updatedTags)
         try {
             if (token) {
-                await createPost(post, updatedTags, token)
+                await createPost(post, caption, updatedTags, token)
                 setShowToast(true);
                 setTimeout(() => setShowToast(false), 3000);
+                setPostBoxValue("")
                 setTextBoxValue("")
                 setTagBoxValue("")
             } else {
@@ -96,9 +98,10 @@ export default function Home() {
             </Link>
             <br></br>
             <p>Create posts</p>
+            <input placeholder = "Paste image source" value={postboxvalue} onChange={(event) => setPostBoxValue(event.target.value)}></input>
             <input placeholder = "Type post" value={textboxvalue} onChange={(event) => setTextBoxValue(event.target.value)}></input>
             <input placeholder = "Tag users" value = {tagboxvalue} onChange={(event) => handleChange(event)}></input>
-            <button onClick={() => handleSubmit(textboxvalue, tagboxvalue)}>Post</button>
+            <button onClick={() => handleSubmit(postboxvalue, textboxvalue, tagboxvalue)}>Post</button>
             <br></br>
             <br></br>
             <div>
@@ -113,7 +116,6 @@ export default function Home() {
             {error && <p style={{ color: "red" }}>{error}</p>}
             <button onClick={handleSignOut}>Sign out</button>
             <Toast message = "Post successfully created!" show={showToast}/>
-
         </>
     )
 }

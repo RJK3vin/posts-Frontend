@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface Post{
     id : number;
+    caption : string;
     post: string;
     username: string;
     tags: string[]

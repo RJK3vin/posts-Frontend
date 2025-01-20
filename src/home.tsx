@@ -39,7 +39,7 @@ export default function Home() {
 
     const handleSubmit = async (post: string, caption: string, tag: string) => {
         setError(null)
-
+        
         if (!post.trim()) {
             setError("You have to type something")
             return;
@@ -55,6 +55,7 @@ export default function Home() {
                 setPostBoxValue("")
                 setTextBoxValue("")
                 setTagBoxValue("")
+                setRenderTags(false)
             } else {
                 setError("Failed to create post, try again");
             }
@@ -86,36 +87,30 @@ export default function Home() {
 
     return (
         <>
-            <h1>Home page</h1>
+        <div className="container">
+            <h1>Home Page</h1>
             <h2>Welcome {user}</h2>
-            <Link to= "/explore">
-                <button>Go to explore page</button>
+            <Link to="/explore">
+                <button>Go to Explore Page</button>
             </Link>
-            <br></br>
-            <br></br>
-            <Link to= "/tag">
-                <button>Go to posts your tagged in</button>
+            <Link to="/tag">
+                <button>Go to Posts You're Tagged In</button>
             </Link>
-            <br></br>
-            <p>Create posts</p>
-            <input placeholder = "Paste image source" value={postboxvalue} onChange={(event) => setPostBoxValue(event.target.value)}></input>
-            <input placeholder = "Type post" value={textboxvalue} onChange={(event) => setTextBoxValue(event.target.value)}></input>
-            <input placeholder = "Tag users" value = {tagboxvalue} onChange={(event) => handleChange(event)}></input>
+            <p>Create Posts</p>
+            <input className="input" placeholder="Paste image source" value={postboxvalue} onChange={(event) => setPostBoxValue(event.target.value)}/>
+            <input className="input" placeholder="Type post" value={textboxvalue} onChange={(event) => setTextBoxValue(event.target.value)}/>
+            <input className="input" placeholder="Tag users" value={tagboxvalue} onChange={(event) => handleChange(event)}/>
             <button onClick={() => handleSubmit(postboxvalue, textboxvalue, tagboxvalue)}>Post</button>
-            <br></br>
-            <br></br>
-            <div>
-                {renderTags && users.length > 0 &&(
+            <div className="tags-container">
+                {renderTags && users.length > 0 && 
                     users.map((person) => (
-                        <>
-                            <button key={person.id} onClick={() => handleOnClick(`${person.username}`)}>{person.username}</button>
-                        </>
-                    ))
-                )}
+                        <button className="tag" key={person.id} onClick={() => handleOnClick(`${person.username}`)}>{person.username}</button>
+                ))}
             </div>
-            {error && <p style={{ color: "red" }}>{error}</p>}
-            <button onClick={handleSignOut}>Sign out</button>
-            <Toast message = "Post successfully created!" show={showToast}/>
+            {error && <p className="error">{error}</p>}
+            <button onClick={handleSignOut}>Sign Out</button>
+            <Toast message="Post successfully created!" show={showToast} />
+        </div>
         </>
     )
 }

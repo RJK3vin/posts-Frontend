@@ -3,6 +3,7 @@ import { logIn, createAccount } from "./api"
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setAuthToken, setAuthUser } from "./postSlice";
+import './App.css'
 
 export default function App() {
   const [username, setUsername] = useState("")
@@ -32,10 +33,12 @@ export default function App() {
 
   return (
     <>
-      <input placeholder = "username" value = {username} onChange={(event) => setUsername(event.target.value)}></input>
-      <input placeholder = "password" value = {password} onChange={(event) => setPassword(event.target.value)}></input>
-      <button onClick={handleLogIn}>Log in</button>
-      <button onClick={handleSignUp}>Sign up</button>
+      <div className="container">
+        <input className="input" placeholder="Username" value={username} onChange={(event) => setUsername(event.target.value)}/>
+        <input className="input" type="password" placeholder="Password" value={password} onChange={(event) => setPassword(event.target.value)}/>
+        <button onClick={handleLogIn}>Log In</button>
+        <button onClick={handleSignUp}>Sign Up</button>
+      </div>
     </>
   )
 }

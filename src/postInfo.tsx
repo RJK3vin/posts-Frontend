@@ -54,49 +54,45 @@ export default function PostInfo() {
 
     return (
         <>
-        <h1>Post info</h1>
-        <img src={post.post} style= {{ width: "100px", height: "100px" }}></img>
-        <p>{updatedPost.caption} - posted by {updatedPost.username}</p>
+        <div className="container">
+            <h1>Post Info</h1>
+            <div className="post">
+                <img src={post.post} alt="Post" style={{ width: "100px", height: "100px" }}/>
+                <p>{updatedPost.caption} - posted by {updatedPost.username}</p>
+            </div>
             {updatedPost.tags.length > 0 && (
-                <p>Tags:  
-                    {updatedPost.tags.map((tag, index) => {
-                    if (index < updatedPost.tags.length - 1) {
-                        return (
-                            <span> @{tag}, </span>
-                        )
-                        } else {
-                            return <span> @{tag}</span>
-                        }
-                    })}
-                </p>
+            <div>
+                <p>Tags:</p>
+                <div className="tags-container">
+                    {updatedPost.tags.map((tag, index) => (
+                        <span className="tag" key={index}>@{tag}
+                        {index < updatedPost.tags.length - 1 && ", "}
+                        </span>
+                    ))}
+                </div>
+            </div>
             )}
             {updatedPost.comments.length > 0 && (
-                <p>Comments:
-                    <br></br>
-                    <br></br>
-                    {updatedPost.comments.map((comment) => {
-                        return (<>
-                            <span key={comment.id}> {comment.comment} - commented by: {comment.username}</span>
-                            <br></br>
-                            <br></br>
-                        </>)
-                    })}
-                </p>
+            <div>
+                <p>Comments:</p>
+                {updatedPost.comments.map((comment) => (
+                <div key={comment.id}>
+                    <p>{comment.comment} - commented by: {comment.username}</p>
+                </div>
+                ))}
+            </div>
             )}
-        <input placeholder="Type comment" value={text} onChange={(event) => {setText(event.target.value)}}></input>
-        <button onClick={() => postComment(post.id, text)}>Post Comment</button>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <br></br>
-        <br></br>
-        <Link to="/explore">
-            <button>Back to explore page</button>
-        </Link>
-        <br></br>
-        <br></br>
-        <Link to="/tag">
-                <button>Back to posts your tagged in</button>
-        </Link>
-        <Toast message = "Comment successfully created!" show={showToast}/>
+            <input className="input" placeholder="Type comment" value={text} onChange={(event) => setText(event.target.value)}/>
+            <button onClick={() => postComment(post.id, text)}>Post Comment</button>
+            {error && <p className="error">{error}</p>}
+            <Link to="/explore">
+                <button>Back to Explore Page</button>
+            </Link>
+            <Link to="/tag">
+                <button>Back to Posts You're Tagged In</button>
+            </Link>
+            <Toast message="Comment successfully created!" show={showToast} />
+      </div>
         </> 
     )
 }

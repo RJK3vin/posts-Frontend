@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux"
 import { useEffect } from "react"
 import { fetchPosts } from "./api"
 import { setPosts } from "./postSlice"
+import './App.css'
 
 export default function Tags() {
     const posts = useSelector((state : RootState) => state.post.posts)
@@ -28,16 +29,16 @@ export default function Tags() {
 
     return (
         <>
-        <h1>Posts you're tagged in</h1>
-        <div>
-            {posts && posts.length > 0 ? (
-                posts.some((post) => user && post.tags.includes(user)) ? (
-                    posts.map((post) => 
-                        user && post.tags.includes(user) && (
-                            <div>
-                                <img src={post.post} style= {{ width: "100px", height: "100px" }}></img>
+        <div className="container">
+            <h1>Posts You're Tagged In</h1>
+            <div className="posts">
+                {posts && posts.length > 0 ? (
+                    posts.some((post) => user && post.tags.includes(user)) ? (
+                        posts.map((post) => user && post.tags.includes(user) && (
+                            <div className="post" key={post.id}>
+                                <img src={post.post} alt="Tagged Post" style={{ width: "100px", height: "100px" }}/>
                                 <Link to="/post" state={{ post }}>
-                                    <p key={post.id}>{post.caption} - posted by: {post.username}</p>
+                                    <p>{post.caption} - posted by: {post.username}</p>
                                 </Link>
                             </div>
                         )
@@ -48,10 +49,11 @@ export default function Tags() {
             ) : (
                 <p>Loading posts you're tagged in...</p>
             )}
+            </div>
+            <Link to="/home">
+                <button>Back to Home Page</button>
+            </Link>
         </div>
-        <Link to="/home">
-            <button>Back to home page</button>
-        </Link>
         </>
     )
 }

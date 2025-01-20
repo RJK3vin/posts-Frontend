@@ -4,6 +4,7 @@ import { RootState } from './store';
 import { useEffect } from "react";
 import { fetchPosts } from "./api";
 import { setPosts } from "./postSlice";
+import './App.css'
 
 export default function Explore() {
     const posts = useSelector((state : RootState) => state.post.posts)
@@ -27,24 +28,26 @@ export default function Explore() {
 
     return (
         <>
-        <h1>Explore page</h1>
-        <div>
-            {posts.length > 0 ? (
-                posts.map((post) => (
-                    <>
-                    <img src={post.post} style= {{ width: "100px", height: "100px" }}></img>
-                    <Link to="/post" state = {{ post }}>
-                        <p key={post.id}>{post.caption} - posted by: {post.username}</p>
-                    </Link>
-                    </>
-                ))
-            ) : (
-                <p>Loading posts...</p>
-            )}
+        <div className="container">
+            <h1>Explore Page</h1>
+            <div className="posts">
+                {posts.length > 0 ? (
+                    posts.map((post) => (
+                        <div className="post" key={post.id}>
+                            <img src={post.post} alt="Post" style={{ width: "100px", height: "100px" }}/>
+                            <Link to="/post" state={{ post }}>
+                                <p> {post.caption} - posted by: {post.username}</p>
+                            </Link>
+                        </div>
+                    ))
+                ) : (
+                    <p>Loading posts...</p>
+                )}
+            </div>
+            <Link to="/home">
+            <button>Back to Home Page</button>
+            </Link>
         </div>
-        <Link to ="/home">
-            <button>Back to home page</button>
-        </Link>
         </>
     )
 }
